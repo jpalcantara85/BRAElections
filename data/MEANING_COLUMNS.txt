@@ -1,5 +1,3 @@
-
-
 STATE	--> Name of the State
 CD_MUN --> Electoral code of the municipality
 NM_MUN --> Name of the municipality
