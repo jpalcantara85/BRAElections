@@ -1,0 +1,72 @@
+/* 
+
+DATA
+NS Scalar: number of legislators in survey
+NYS Scalar: number of legislators year in survey
+YS Scalar: number of years in survey
+KS Scalar: number of party (really party-years)
+
+legislator-year-partyplacement objects:
+P VECTOR of length length(P) with party placements
+N is a vector of length length(P) with ids of legislators
+Y is a vector of length length(P) with ids of years
+K is a vector of length length(P with ids of party/year
+Legislator-year objects
+NN is a vector of length NYS with ids for legislators 
+YY is a vector of length NYS with ids for year 
+
+
+Parameters to be estimated:
+a       vector of length NS
+b       vector of length NS
+d	 vector of length YS
+g	 vector of length YS
+pp      vector of length KS, party positions
+taup    scalar
+*/
+
+
+
+model{ 
+
+for(i in 1:length(P)){  
+	P[i] ~ dnorm( a[N[i]] + b[N[i]] * ppraw[K[i]],  taup[Y[i]])
+	M[i] ~ dnorm( a[N[i]] + b[N[i]] * mstrraw[N[i]]  , taum) #this should be deterministic,no?
+}
+
+
+for(n in 1:NYS){ #by legislator-years
+	MM[n] ~ dnorm( d[YY[n]] + g[YY[n]] * mstrraw[NN[n]], tauz)
+}
+   
+for(y in 1:YS){
+taup[y] ~ dgamma(0.01,0.01)  
+}
+taum  ~ dgamma(0.01,0.01) 
+tauz ~ dgamma(0.01,0.01) 
+
+
+for(p in 1:KS){ #party parameters
+	ppraw[p] ~ dnorm(4.994679,0.2) #from the data
+}
+for(p in 1:KS){ #party parameters
+	pp[p] <-  ((ppraw[p] - mean(ppraw)) / sd(ppraw)) 
+	ppalt[p] <-  pp[p]*2.5+ 4.994679  #normalize using the empirical mean of pre-rescaled mean and slightly smaller than empirical sd
+}
+
+for(n in 1:NS){ #legislator parameters
+	mstrraw[n] ~ dnorm(4.35,0.2) #from the data
+}
+for(n in 1:NS){
+	mstr[n] <- ((mstrraw[n] - mean(mstrraw))  / sd(mstrraw))
+}
+
+for(ny in 1:NS){ #legislator  parameters
+a[ny] ~ dnorm(0.0, 0.25)b[ny] ~ dnorm(1.0, 0.25)
+}
+for(y in 1:YS){ #year parameters
+d[y] ~ dnorm(0.0, 0.25)
+g[y] ~ dnorm(1.0, 0.25)
+}
+
+}
