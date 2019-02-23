@@ -1,14 +1,13 @@
 import pandas as pd, numpy as np, glob
 
-folder0 = glob.glob("/Users/jpalcantara/Downloads/votacao_candidato_munzona_2018" + "/*.txt")
+folder0 = glob.glob("/Users/jpalcantara/Downloads/votacao_candidato_munzona_2018" + "/*.csv")
 list0   = []
 
 for file in folder0:
-    df0 = pd.read_csv(file, encoding = 'latin1', sep = ";", header = None)
+    df0 = pd.read_csv(file, encoding = 'latin1', sep = ";")
     list0.append(df0)
     
-df0         = pd.concat(list0, ignore_index = True) 
-df0.columns = ["DT", "HR", "ANO", "NR_TURNO", "X4", "SG_UF", "X6", "CD_MUNICIPIO", "NM_MUNICIPIO", "NR_ZONA", "CD_CARGO", "NR_CAND", "CD_CAND", "NM_CAND", "NM_URNA", "DS_CARGO", "X16", "X17", "X18", "X19", "CD_RESULT", "DS_RESULT", "NR_PARTIDO", "SG_PARTIDO", "NM_PARTIDO", "X25", "NM_COLIG", "PART_COLIG", "QT_VOTOS", "X29"]
+df0         = pd.concat(list0, ignore_index = True)
 df0         = df0[df0["SG_UF"] != "ZZ"]
 
 ds_pres0    = df0[df0["CD_CARGO"] == 1]
@@ -24,7 +23,7 @@ ds_depfed0  = pd.concat([ds_depfed0, ds_depdis0])
 
 ds_pres_1T_pivot0    =   pd.pivot_table(ds_pres_1T0,
                                    index = ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values = ["QT_VOTOS"], 
+                                   values = ["QT_VOTOS_NOMINAIS"], 
                                    columns = ["NR_PARTIDO", "NM_PARTIDO"],
                                    aggfunc = np.sum,
                                    fill_value = 0
@@ -32,7 +31,7 @@ ds_pres_1T_pivot0    =   pd.pivot_table(ds_pres_1T0,
 
 ds_pres_2T_pivot0    =   pd.pivot_table(ds_pres_2T0,
                                    index = ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values = ["QT_VOTOS"], 
+                                   values = ["QT_VOTOS_NOMINAIS"], 
                                    columns = ["NR_PARTIDO", "NM_PARTIDO"],
                                    aggfunc = np.sum,
                                    fill_value = 0
@@ -40,7 +39,7 @@ ds_pres_2T_pivot0    =   pd.pivot_table(ds_pres_2T0,
 
 ds_gov_pivot0         =   pd.pivot_table(ds_gov0,
                                    index = ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values = ["QT_VOTOS"], 
+                                   values = ["QT_VOTOS_NOMINAIS"], 
                                    columns = ["NR_PARTIDO", "NM_PARTIDO"],
                                    aggfunc = np.sum,
                                    fill_value = 0
@@ -48,7 +47,7 @@ ds_gov_pivot0         =   pd.pivot_table(ds_gov0,
 
 ds_sen_pivot0         =   pd.pivot_table(ds_sen0,
                                    index = ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values = ["QT_VOTOS"], 
+                                   values = ["QT_VOTOS_NOMINAIS"], 
                                    columns = ["NR_PARTIDO", "NM_PARTIDO"],
                                    aggfunc = np.sum,
                                    fill_value = 0
@@ -56,7 +55,7 @@ ds_sen_pivot0         =   pd.pivot_table(ds_sen0,
 
 ds_depfed_pivot0      =   pd.pivot_table(ds_depfed0,
                                    index = ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values = ["QT_VOTOS"], 
+                                   values = ["QT_VOTOS_NOMINAIS"], 
                                    columns = ["NR_PARTIDO", "NM_PARTIDO"],
                                    aggfunc = np.sum,
                                    fill_value = 0
@@ -64,7 +63,7 @@ ds_depfed_pivot0      =   pd.pivot_table(ds_depfed0,
 
 ds_depest_pivot0      =   pd.pivot_table(ds_depest0,
                                    index = ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values = ["QT_VOTOS"], 
+                                   values = ["QT_VOTOS_NOMINAIS"], 
                                    columns = ["NR_PARTIDO", "NM_PARTIDO"],
                                    aggfunc = np.sum,
                                    fill_value = 0
@@ -72,15 +71,14 @@ ds_depest_pivot0      =   pd.pivot_table(ds_depest0,
 
 ###############################################################################
 
-folder1 = glob.glob("/Users/jpalcantara/Downloads/detalhe_votacao_munzona_2018" + "/*.txt")
+folder1 = glob.glob("/Users/jpalcantara/Downloads/detalhe_votacao_munzona_2018" + "/*.csv")
 list1 = []
 
 for file in folder1:
-    df1 = pd.read_csv(file, encoding = 'latin1', sep = ";", header = None)
-    list1.append(df1)
+    df1 = pd.read_csv(file, encoding = 'latin1', sep = ";")
+    list1.append(df1)    
     
 df1         = pd.concat(list1, ignore_index = True) 
-df1.columns = ["DT", "HR", "ANO", "NR_TURNO", "X4", "SG_UF", "X6", "CD_MUNICIPIO", "NM_MUNICIPIO", "NR_ZONA", "CD_CARGO", "DS_CARGO", "X12", "QT_SECOES", "X14", "QT_APTOS", "X16", "QT_COMPARECIMENTOS", "QT_ABST", "QT_VOTOS", "QT_BRANCOS", "QT_NULOS", "QT_LEGEND", "X23", "X24", "X25", "X26", "X27"]
 df1         = df1[df1["SG_UF"] != "ZZ"]
 
 ds_pres1    = df1[df1["CD_CARGO"] == 1]
@@ -96,42 +94,42 @@ ds_depfed1  = pd.concat([ds_depfed1, ds_depdis1])
 
 ds_pres_1T_pivot1   = pd.pivot_table(ds_pres_1T1,
                                    index        =   ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values       =   ["QT_NULOS", "QT_BRANCOS", "QT_APTOS", "QT_COMPARECIMENTOS", "QT_ABST"], 
+                                   values       =   ["QT_VOTOS_NULOS", "QT_VOTOS_BRANCOS", "QT_APTOS_TOT", "QT_COMPARECIMENTO", "QT_ABSTENCOES"], 
                                    aggfunc      =   np.sum,
                                    fill_value   =   0
                                    )
 
 ds_pres_2T_pivot1   = pd.pivot_table(ds_pres_2T1,
                                    index        =   ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values       =   ["QT_NULOS", "QT_BRANCOS", "QT_APTOS", "QT_COMPARECIMENTOS", "QT_ABST"], 
+                                   values       =   ["QT_VOTOS_NULOS", "QT_VOTOS_BRANCOS", "QT_APTOS_TOT", "QT_COMPARECIMENTO", "QT_ABSTENCOES"], 
                                    aggfunc      =   np.sum,
                                    fill_value   =   0
                                    )
 
 ds_gov_pivot1       = pd.pivot_table(ds_gov1,
                                    index        =   ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values       =   ["QT_NULOS", "QT_BRANCOS", "QT_APTOS", "QT_COMPARECIMENTOS", "QT_ABST"], 
+                                   values       =   ["QT_VOTOS_NULOS", "QT_VOTOS_BRANCOS", "QT_APTOS_TOT", "QT_COMPARECIMENTO", "QT_ABSTENCOES"], 
                                    aggfunc      =   np.sum,
                                    fill_value   =   0
                                    )
 
 ds_sen_pivot1       = pd.pivot_table(ds_sen1,
                                    index        =   ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values       =   ["QT_NULOS", "QT_BRANCOS", "QT_APTOS", "QT_COMPARECIMENTOS", "QT_ABST"], 
+                                   values       =   ["QT_VOTOS_NULOS", "QT_VOTOS_BRANCOS", "QT_APTOS_TOT", "QT_COMPARECIMENTO", "QT_ABSTENCOES"], 
                                    aggfunc      =   np.sum,
                                    fill_value   =   0
                                    )
 
 ds_depfed_pivot1    = pd.pivot_table(ds_depfed1,
                                    index        =   ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values       =   ["QT_NULOS", "QT_BRANCOS", "QT_APTOS", "QT_COMPARECIMENTOS", "QT_ABST"], 
+                                   values       =   ["QT_VOTOS_NULOS", "QT_VOTOS_BRANCOS", "QT_APTOS_TOT", "QT_COMPARECIMENTO", "QT_ABSTENCOES"], 
                                    aggfunc      =   np.sum,
                                    fill_value   =   0
                                    )
 
 ds_depest_pivot1    = pd.pivot_table(ds_depest1,
                                    index        =   ["SG_UF", "CD_MUNICIPIO", "NM_MUNICIPIO"], 
-                                   values       =   ["QT_NULOS", "QT_BRANCOS", "QT_APTOS", "QT_COMPARECIMENTOS", "QT_ABST"], 
+                                   values       =   ["QT_VOTOS_NULOS", "QT_VOTOS_BRANCOS", "QT_APTOS_TOT", "QT_COMPARECIMENTO", "QT_ABSTENCOES"], 
                                    aggfunc      =   np.sum,
                                    fill_value   =   0
                                    )
