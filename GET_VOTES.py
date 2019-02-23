@@ -2,7 +2,7 @@ import pandas as pd, numpy as np, glob
 
 #folder = glob.glob("/Users/jpalcantara/Downloads/2003-2007" + "/*.txt")
 #folder = glob.glob("/Users/jpalcantara/Downloads/2007-2011" + "/*.txt")
-folder = glob.glob("/Users/jpalcantara/Downloads/2011-2015" + "/*.txt")
+#folder = glob.glob("/Users/jpalcantara/Downloads/2011-2015" + "/*.txt")
 #folder = glob.glob("/Users/jpalcantara/Downloads/2015-2019" + "/*.txt")
 
 list = []
@@ -32,5 +32,5 @@ df_pivot[df_pivot == "<------->"] = "X"     # Not present
 
 #df_pivot.to_csv("/Users/jpalcantara/Desktop/2003_2007.csv", encoding = "utf-8")
 #df_pivot.to_csv("/Users/jpalcantara/Desktop/2007_2011.csv", encoding = "utf-8")
-df_pivot.to_csv("/Users/jpalcantara/Desktop/2011_2015.csv", encoding = "utf-8")
+#df_pivot.to_csv("/Users/jpalcantara/Desktop/2011_2015.csv", encoding = "utf-8")
 #df_pivot.to_csv("/Users/jpalcantara/Desktop/2015_2019.csv", encoding = "utf-8")
