@@ -1,4 +1,4 @@
-STATE       	    -->   Name of the State
+STATE       	  -->   Name of the State
 CD_MUN            -->   Electoral code of the municipality
 NM_MUN            -->   Name of the municipality
 VOTES_INCUMBENT   -->   Number of votes of the incumbent candidate (since 2002, it's always been the PT 13)
